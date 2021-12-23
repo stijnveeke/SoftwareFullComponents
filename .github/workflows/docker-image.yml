@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the ProductComponent image
-      run: docker build ./CommunicationLayer/Components/ProductComponent/ --file Dockerfile --tag product-component:$(date +%s)
+      run: docker build ./CommunicationLayer/Components/ProductComponent/ --file ./CommunicationLayer/Components/ProductComponent/Dockerfile --tag product-component:$(date +%s)
