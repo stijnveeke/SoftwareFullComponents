@@ -30,3 +30,10 @@ jobs:
       run: dotnet build CommunicationLayer/Components/OrderComponent/OrderComponent.csproj --no-restore
     - name: Test OrderComponent
       run: dotnet test CommunicationLayer/Components/OrderComponent/OrderComponent.csproj --no-build --verbosity normal
+      
+    - name: Restore WebGateway dependencies
+      run: dotnet restore CommunicationLayer/Gateways/WebGateway/WebGateway.csproj 
+    - name: Build WebGateway
+      run: dotnet build CommunicationLayer/Gateways/WebGateway/WebGateway.csproj --no-restore
+    - name: Test WebGateway
+      run: dotnet test CommunicationLayer/Gateways/WebGateway/WebGateway.csproj --no-build --verbosity normal
