@@ -1,0 +1,52 @@
+version: '3.4'
+
+services:
+  webshopfront:
+    container_name: webshopfront
+    image: ${DOCKER_REGISTRY-}frontend-webshoplayer
+    depends_on:
+        - productcomponent
+    build:
+        context: ../SoftwareFull.WebshopFrontEnd
+        dockerfile: ../SoftwareFull.WebshopFrontEnd/Dockerfile
+    ports:
+     - '4201:4200' 
+
+  productcomponent:
+    image: ${DOCKER_REGISTRY-}productcomponent
+    build:
+      context: .
+      dockerfile: CommunicationLayer/Components/ProductComponent/Dockerfile
+    environment:
+        ConnectionString: "Data Source=host.docker.internal,1433;Initial Catalog=ProductComponent-6705ec26-21d6-4425-9120-1df6d6cb958a;User ID=sa;Password=Root1234"
+    ports:
+      - "8081:80"
+      - "4434:443"
+    depends_on:
+      - sqlserver
+
+  sqlserver:
+    container_name: sql-server-db
+    image: mcr.microsoft.com/mssql/server:latest
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "Root1234"
+      ACCEPT_EULA: "Y"
+  webgateway:
+    image: ${DOCKER_REGISTRY-}webgateway
+    build:
+      context: .
+      dockerfile: CommunicationLayer/Gateways/WebGateway/Dockerfile
+    ports:
+      - "8090:80"
+      - "5021:443"
+
+  ordercomponent:
+    image: ${DOCKER_REGISTRY-}ordercomponent
+    build:
+      context: .
+      dockerfile: CommunicationLayer/Components/OrderComponent/Dockerfile
+    ports:
+      - "8082:80"
+      - "4435:443"

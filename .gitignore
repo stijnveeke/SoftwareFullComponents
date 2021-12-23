@@ -3,3 +3,17 @@
 ################################################################################
 
 /bin/Debug
+/.vs/SoftwareFullComponents
+/CommunicationLayer/Components/OrderComponent/bin/Debug/net5.0
+/CommunicationLayer/Components/OrderComponent/obj
+/CommunicationLayer/Components/ProductComponent/bin/Debug/net5.0
+/CommunicationLayer/Components/ProductComponent/obj
+/CommunicationLayer/Gateways/WebGateway/bin/Debug/net5.0
+/CommunicationLayer/Gateways/WebGateway/obj
+/LogicLayer/bin/Debug/net5.0/ref
+/LogicLayer/bin/Debug/net5.0
+/LogicLayer/obj
+/obj
+/packages
+/PersistencyLayer/bin/Debug/net5.0
+/PersistencyLayer/obj
