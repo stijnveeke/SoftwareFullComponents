@@ -56,33 +56,7 @@ namespace ProductComponent
                     };
                 });
 
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("read:product", policy => policy.Requirements.Add(new HasScopeRequirement("read:product", domain)));
-            //});
-
             services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
-
-            //var key = "This is my test key";
-
-            //services.AddAuthentication(x =>
-            //{
-            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(x =>
-            //{
-            //    x.RequireHttpsMetadata = false;
-            //    x.SaveToken = true;
-            //    x.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuerSigningKey = true,
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
-            //        ValidateIssuer = false,
-            //        ValidateAudience = false
-            //    };
-            //});
-
-            //services.AddSingleton<IJwtAuthenticationManager>(new JwtAuthenticationManager(key));
             services.AddHttpContextAccessor();
 
             services.AddSwaggerGen(c =>
@@ -114,6 +88,14 @@ namespace ProductComponent
                 );
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProductComponent", Version = "v1" });
             });
+
+            if (Configuration.GetConnectionString("ProductComponentContext") == null)
+            {
+                // Double / seems to duplicate slashes withing the connection string when setting it in the secret so if your connection string does not work try changings this.
+                throw new MissingFieldException("Missing user secret: \"ConnectionStrings:ProductComponentContext\". \n " +
+                    "Please set it using the following command: \n" +
+                    "dotnet user-secrets set \"ConnectionStrings:ProductComponentContext\" \"YOUR_CONNECTION_STRING\"");
+            }
 
             string ConnectionString = Environment.GetEnvironmentVariable("ConnectionString") ?? Configuration.GetConnectionString("ProductComponentContext");
             services.AddDbContext<ProductComponentContext>(options =>

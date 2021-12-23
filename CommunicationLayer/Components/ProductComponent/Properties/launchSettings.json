@@ -14,8 +14,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConnectionStrings:DefaultConnection": "testsqlstring"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "ProductComponent": {
