@@ -21,5 +21,12 @@ jobs:
       run: dotnet restore CommunicationLayer/Components/ProductComponent/ProductComponent.csproj 
     - name: Build ProductComponent
       run: dotnet build CommunicationLayer/Components/ProductComponent/ProductComponent.csproj --no-restore
-    - name: Test
+    - name: Test ProductComponent
       run: dotnet test CommunicationLayer/Components/ProductComponent/ProductComponent.csproj --no-build --verbosity normal
+      
+    - name: Restore OrderComponent dependencies
+      run: dotnet restore CommunicationLayer/Components/OrderComponent/OrderComponent.csproj 
+    - name: Build OrderComponent
+      run: dotnet build CommunicationLayer/Components/OrderComponent/OrderComponent.csproj --no-restore
+    - name: Test OrderComponent
+      run: dotnet test CommunicationLayer/Components/OrderComponent/OrderComponent.csproj --no-build --verbosity normal
