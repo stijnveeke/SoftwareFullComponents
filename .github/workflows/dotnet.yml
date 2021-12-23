@@ -17,9 +17,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build Productcomponent
-      run: dotnet build CommunicationLayer/Components/ProductComponent/ --no-restore
+    - name: Restore ProductComponent dependencies
+      run: dotnet CommunicationLayer/Components/ProductComponent/ProductComponent.csproj restore
+    - name: Build ProductComponent
+      run: dotnet build CommunicationLayer/Components/ProductComponent/ProductComponent.csproj --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
