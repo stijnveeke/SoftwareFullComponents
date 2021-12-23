@@ -1,4 +1,4 @@
-name: Review ProductComponent
+name: Review OrderComponent
 
 on:
   push:
@@ -17,12 +17,12 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    - name: Restore ProductComponent dependencies
-      run: dotnet restore CommunicationLayer/Components/ProductComponent/ProductComponent.csproj 
-    - name: Build ProductComponent
-      run: dotnet build CommunicationLayer/Components/ProductComponent/ProductComponent.csproj --no-restore
-    - name: Test ProductComponent
-      run: dotnet test CommunicationLayer/Components/ProductComponent/ProductComponent.csproj --no-build --verbosity normal
+    - name: Restore OrderComponent dependencies
+      run: dotnet restore CommunicationLayer/Components/OrderComponent/OrderComponent.csproj 
+    - name: Build OrderComponent
+      run: dotnet build CommunicationLayer/Components/OrderComponent/OrderComponent.csproj --no-restore
+    - name: Test OrderComponent
+      run: dotnet test CommunicationLayer/Components/OrderComponent/OrderComponent.csproj --no-build --verbosity normal
         
     - name: Docker Build & Push Action
       # You may pin to the exact commit or the version.
@@ -30,11 +30,11 @@ jobs:
       uses: mr-smithers-excellent/docker-build-push@v5.6
       with:
         # Name of the Docker image
-        image: 3739323298328/product-component
+        image: 3739323298328/order-component
         # Target Docker registry
         registry: docker.io
         # Location of Dockerfile, if not Dockerfile in root directory
-        dockerfile: CommunicationLayer/Components/ProductComponent/Dockerfile
+        dockerfile: CommunicationLayer/Components/OrderComponent/Dockerfile
         # Docker registry username
         username: ${{ secrets.DOCKER_USERNAME }}
         # Docker registry password
