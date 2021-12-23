@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore ProductComponent dependencies
-      run: dotnet CommunicationLayer/Components/ProductComponent/ProductComponent.csproj restore
+      run: dotnet restore CommunicationLayer/Components/ProductComponent/ProductComponent.csproj 
     - name: Build ProductComponent
       run: dotnet build CommunicationLayer/Components/ProductComponent/ProductComponent.csproj --no-restore
     - name: Test
