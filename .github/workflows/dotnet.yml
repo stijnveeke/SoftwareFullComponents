@@ -22,4 +22,4 @@ jobs:
     - name: Build ProductComponent
       run: dotnet build CommunicationLayer/Components/ProductComponent/ProductComponent.csproj --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test CommunicationLayer/Components/ProductComponent/ProductComponent.csproj --no-build --verbosity normal
