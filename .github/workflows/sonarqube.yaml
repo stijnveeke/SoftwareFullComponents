@@ -43,5 +43,5 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"stijnveeke_SoftwareFullComponents" /o:"stijnveeke" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build CommunicationLayer/Components/ProductComponent/ProductComponent.csproj --no-restore
+          dotnet build CommunicationLayer/Components/ProductComponent/ProductComponent.csproj
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
