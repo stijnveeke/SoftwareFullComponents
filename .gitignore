@@ -19,3 +19,6 @@
 /PersistencyLayer/obj
 *.[lL]ocal.json
 *.user
+.idea/.idea.SoftwareFullComponents/.idea/
+.idea/
+.idea/config/applicationhost.config

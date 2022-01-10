@@ -10,7 +10,27 @@ services:
         context: ../SoftwareFull.WebshopFrontEnd
         dockerfile: ../SoftwareFull.WebshopFrontEnd/Dockerfile
     ports:
-     - '4201:4200' 
+     - '88:80' 
+  admindashboardfrontend:
+    container_name: admindashboardfront
+    image: ${DOCKER_REGISTRY-}frontend-admindashboard
+    depends_on:
+        - productcomponent
+    build:
+        context: ../SoftwareFull.AdminDashboardFrontEnd
+        dockerfile: ../SoftwareFull.AdminDashboardFrontEnd/Dockerfile
+    ports:
+     - '89:80'
+  userdashboardfrontend:
+    container_name: userdashboardfront
+    image: ${DOCKER_REGISTRY-}frontend-userdashboard
+    depends_on:
+        - productcomponent
+    build:
+        context: ../SoftwareFull.UserDashboardFrontEnd
+        dockerfile: ../SoftwareFull.UserDashboardFrontEnd/Dockerfile
+    ports:
+     - '90:80' 
 
   productcomponent:
     image: ${DOCKER_REGISTRY-}productcomponent
@@ -28,11 +48,15 @@ services:
   sqlserver:
     container_name: sql-server-db
     image: mcr.microsoft.com/mssql/server:latest
+    user: root
     ports:
       - "1433:1433"
     environment:
       SA_PASSWORD: "Root1234"
       ACCEPT_EULA: "Y"
+    volumes:
+      - dbdata:/var/opt/mssql/data 
+
   webgateway:
     image: ${DOCKER_REGISTRY-}webgateway
     build:
@@ -50,3 +74,6 @@ services:
     ports:
       - "8082:80"
       - "4435:443"
+
+volumes:
+  dbdata:

@@ -11,15 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductComponent", "Communi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicLayer", "LogicLayer\LogicLayer.csproj", "{51246AE6-4BDE-476E-B465-249E1A0D6DF8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersistencyLayer", "PersistencyLayer\PersistencyLayer.csproj", "{653E1D77-060E-46EF-B9C1-01565DC8CA27}"
-EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{667EC54A-2CCF-4A2A-BC0B-0E4B0120ABA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{A860B002-482E-49B2-B7B1-3ABECDAFB752}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebGateway", "CommunicationLayer\Gateways\WebGateway\WebGateway.csproj", "{71561C11-34C6-42E1-940D-E60865DB56C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderComponent", "CommunicationLayer\Components\OrderComponent\OrderComponent.csproj", "{E1D32E7D-0F11-487A-BB5D-2AAB15163156}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderComponent", "CommunicationLayer\Components\OrderComponent\OrderComponent.csproj", "{E1D32E7D-0F11-487A-BB5D-2AAB15163156}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{51246AE6-4BDE-476E-B465-249E1A0D6DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51246AE6-4BDE-476E-B465-249E1A0D6DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51246AE6-4BDE-476E-B465-249E1A0D6DF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{653E1D77-060E-46EF-B9C1-01565DC8CA27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{653E1D77-060E-46EF-B9C1-01565DC8CA27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{653E1D77-060E-46EF-B9C1-01565DC8CA27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{653E1D77-060E-46EF-B9C1-01565DC8CA27}.Release|Any CPU.Build.0 = Release|Any CPU
 		{667EC54A-2CCF-4A2A-BC0B-0E4B0120ABA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{667EC54A-2CCF-4A2A-BC0B-0E4B0120ABA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{667EC54A-2CCF-4A2A-BC0B-0E4B0120ABA5}.Release|Any CPU.ActiveCfg = Release|Any CPU

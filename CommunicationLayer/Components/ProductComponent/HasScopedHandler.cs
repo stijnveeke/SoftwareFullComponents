@@ -12,6 +12,8 @@ namespace ProductComponent
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, HasScopeRequirement requirement)
         {
+            var claims = context.User.Claims;
+            var user = context.User;
             // If user does not have the scope claim, get out of here
             if (!context.User.HasClaim(c => c.Type == "scope" && c.Issuer == requirement.Issuer))
                 return Task.CompletedTask;

@@ -42,6 +42,13 @@ namespace ProductComponent
             });
 
             services.AddControllers();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                c.AddPolicy("AllowExposedXTotalCount", options => options.AllowAnyHeader().WithExposedHeaders("Access-Control-Expose-Headers"));
+            });
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             string domain = $"https://{Configuration["Auth0:Domain"]}/";
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -55,6 +62,13 @@ namespace ProductComponent
                         NameClaimType = ClaimTypes.NameIdentifier
                     };
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("create:product", policy => policy.Requirements.Add(new HasScopeRequirement("create:product", domain)));
+                options.AddPolicy("edit:product", policy => policy.Requirements.Add(new HasScopeRequirement("edit:product", domain)));
+                options.AddPolicy("delete:product", policy => policy.Requirements.Add(new HasScopeRequirement("delete:product", domain)));
+            });
 
             services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
             services.AddHttpContextAccessor();
@@ -86,16 +100,8 @@ namespace ProductComponent
                         }
                     }
                 );
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProductComponent", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "ProductComponent", Version = "v1"});
             });
-
-            if (Configuration.GetConnectionString("ProductComponentContext") == null)
-            {
-                // Double / seems to duplicate slashes withing the connection string when setting it in the secret so if your connection string does not work try changings this.
-                throw new MissingFieldException("Missing user secret: \"ConnectionStrings:ProductComponentContext\". \n " +
-                    "Please set it using the following command: \n" +
-                    "dotnet user-secrets set \"ConnectionStrings:ProductComponentContext\" \"YOUR_CONNECTION_STRING\"");
-            }
 
             string ConnectionString = Environment.GetEnvironmentVariable("ConnectionString") ?? Configuration.GetConnectionString("ProductComponentContext");
             services.AddDbContext<ProductComponentContext>(options =>
@@ -106,7 +112,7 @@ namespace ProductComponent
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //app.UseMiddleware<ApiKeyValidatorMiddleWare>();
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsEnvironment("Local"))
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
@@ -127,7 +133,7 @@ namespace ProductComponent
       
 
             app.UseRouting();
-
+            app.UseCors(builder => builder.AllowAnyMethod().AllowAnyOrigin().AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
 

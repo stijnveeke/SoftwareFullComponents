@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using DataModels;
 using ProductComponent.Data;
 using Microsoft.AspNetCore.Authorization;
+using ProductComponent.DTO;
+using AutoMapper;
 
 namespace ProductComponent.Controllers
 {
@@ -16,56 +18,61 @@ namespace ProductComponent.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductComponentContext _context;
+        private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
 
-        public ProductsController(ProductComponentContext context)
+        public ProductsController(IProductRepository productRepository, IMapper mapper)
         {
-            _context = context;
+            _productRepository = productRepository;
+            _mapper = mapper;
         }
 
         // GET: api/Products
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
+        public async Task<ActionResult<IEnumerable<ProductRead>>> GetProducts()
         {
-            return await _context.Product.ToListAsync();
+            Console.WriteLine("--> Getting products");
+            var products = await _productRepository.GetProducts();
+
+            return Ok(_mapper.Map<IEnumerable<ProductRead>>(products));
         }
 
         // GET: api/Products/5
-        [HttpGet("{id}")]
+        [HttpGet("{productSlug}")]
         [AllowAnonymous]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductRead>> GetProduct(string productSlug)
         {
-            var product = await _context.Product.FindAsync(id);
+            var product = await _productRepository.GetProductBySlug(productSlug);
 
             if (product == null)
             {
                 return NotFound();
             }
 
-            return product;
+            return Ok(_mapper.Map<ProductRead>(product));
         }
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize("edit:product")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutProduct(int id, ProductEdit productEdit)
         {
+            var product = _mapper.Map<Product>(productEdit);
+
             if (id != product.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(product).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _productRepository.EditProduct(product);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!_productRepository.ProductExists(id))
                 {
                     return NotFound();
                 }
@@ -82,11 +89,9 @@ namespace ProductComponent.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize("create:product")]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Product>> PostProduct(ProductCreate productCreate)
         {
-            _context.Product.Add(product);
-            await _context.SaveChangesAsync();
-
+            var product = await _productRepository.CreateProduct(_mapper.Map<Product>(productCreate));
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
@@ -95,21 +100,20 @@ namespace ProductComponent.Controllers
         [Authorize("delete:product")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await _context.Product.FindAsync(id);
-            if (product == null)
+            try
             {
-                return NotFound();
+                await _productRepository.DeleteProduct(id);
+            }
+            catch(DbUpdateConcurrencyException e)
+            {
+                if (e.Message == "Not found!")
+                {
+                    return NotFound();
+                }
+                
             }
 
-            _context.Product.Remove(product);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool ProductExists(int id)
-        {
-            return _context.Product.Any(e => e.Id == id);
         }
     }
 }

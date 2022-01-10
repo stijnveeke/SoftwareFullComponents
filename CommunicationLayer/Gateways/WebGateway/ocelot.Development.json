@@ -10,7 +10,51 @@
         }
       ],
       "UpstreamPathTemplate": "/api/product",
-      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownStreamPathTemplate": "/api/products",
+      "DownstreamScheme": "http",
+      "DownStreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 8081
+        }
+      ],
+      "UpstreamPathTemplate": "/api/product",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "create:product" ]
+      }
+    },
+    {
+      "DownStreamPathTemplate": "/api/products/{id}",
+      "DownstreamScheme": "http",
+      "DownStreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 8081
+        }
+      ],
+      "UpstreamPathTemplate": "/api/product/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownStreamPathTemplate": "/api/products/{id}",
+      "DownstreamScheme": "http",
+      "DownStreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 8081
+        }
+      ],
+      "UpstreamPathTemplate": "/api/product/{id}",
+      "UpstreamHttpMethod": [ "PUT" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
