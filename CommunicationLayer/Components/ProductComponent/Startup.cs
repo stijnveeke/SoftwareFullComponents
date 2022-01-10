@@ -103,7 +103,6 @@ namespace ProductComponent
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "ProductComponent", Version = "v1"});
             });
 
-            string ConnectionString = Environment.GetEnvironmentVariable("ConnectionString") ?? Configuration.GetConnectionString("ProductComponentContext");
             services.AddDbContext<ProductComponentContext>(options =>
                     options.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString") ?? Configuration.GetConnectionString("ProductComponentContext")));
         }
@@ -111,7 +110,6 @@ namespace ProductComponent
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //app.UseMiddleware<ApiKeyValidatorMiddleWare>();
             if (env.IsDevelopment() || env.IsEnvironment("Local"))
             {
                 app.UseDeveloperExceptionPage();
